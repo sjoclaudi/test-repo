@@ -1,5 +1,5 @@
 #!/bin/bash
-# Polymarket Scanner - Automated scan and report script
+# Multi-Platform Prediction Market Scanner
 # Usage: ./scan.sh [minutes]
 
 set -e
@@ -7,38 +7,31 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-MINUTES=${1:-120}
+MINUTES=${1:-180}
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-echo "🎲 Polymarket Scanner - $(date)"
+echo "🎲 Multi-Platform Scanner - $(date)"
 echo "   Looking ahead: ${MINUTES} minutes"
 echo ""
 
-# Fetch markets
-echo "📡 Fetching markets..."
-npx ts-node src/index.ts --minutes "$MINUTES" --output "markets.json" > /dev/null 2>&1
+# Run multi-scanner
+echo "📡 Scanning platforms..."
+npx ts-node src/multi-scanner.ts --minutes "$MINUTES" --platforms polymarket,predictit --output "results.json" 2>&1 | tee scan_output.txt
 
-# Analyze
-echo "🔍 Analyzing opportunities..."
-npx ts-node src/analyzer.ts --input "markets.json" --json > "opportunities.json" 2>/dev/null
-
-# Count opportunities
-TOTAL=$(jq 'length' opportunities.json)
-NO_RISK=$(jq '[.[] | select(.analysis.riskLevel == "no-risk")] | length' opportunities.json)
-LOW_RISK=$(jq '[.[] | select(.analysis.riskLevel == "low-risk")] | length' opportunities.json)
-
-echo ""
-echo "📊 Found:"
-echo "   🟢 No-risk: $NO_RISK"
-echo "   🟡 Low-risk: $LOW_RISK"
-echo "   Total: $TOTAL"
+# Count opportunities from JSON
+if [ -f results.json ]; then
+  TOTAL=$(jq '.markets | length' results.json 2>/dev/null || echo "0")
+  OPPS=$(jq '.opportunities | length' results.json 2>/dev/null || echo "0")
+  echo ""
+  echo "📊 Results:"
+  echo "   Total markets: $TOTAL"
+  echo "   Opportunities: $OPPS"
+fi
 
 # Generate reports
 echo ""
 echo "📝 Generating reports..."
-npx ts-node src/report.ts --input "opportunities.json" --format telegram --output "report_telegram.txt"
-npx ts-node src/report.ts --input "opportunities.json" --format email --output "report_email.html"
+npx ts-node src/report.ts --input "results.json" --format telegram --output "report_telegram.txt" 2>/dev/null || true
+npx ts-node src/report.ts --input "results.json" --format email --output "report_email.html" 2>/dev/null || true
 
 echo "✅ Done!"
-echo "   Telegram: report_telegram.txt"
-echo "   Email: report_email.html"
