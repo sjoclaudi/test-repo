@@ -13,6 +13,7 @@
 import { writeFileSync } from 'fs';
 import { polymarket } from './platforms/polymarket';
 import { predictit } from './platforms/predictit';
+import { manifold } from './platforms/manifold';
 import { Market, formatCurrency } from './platforms';
 
 interface Alert {
@@ -38,6 +39,7 @@ async function scanForAlerts(minutesAhead: number): Promise<Alert[]> {
   const results = await Promise.allSettled([
     polymarket.fetchMarkets(minutesAhead),
     predictit.fetchMarkets(minutesAhead * 10), // PredictIt has longer-term markets
+    manifold.fetchMarkets(minutesAhead * 5),   // Manifold also has longer markets
   ]);
 
   const allMarkets: Market[] = [];

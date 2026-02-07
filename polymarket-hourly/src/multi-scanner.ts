@@ -23,12 +23,15 @@ import { predictit } from './platforms/predictit';
 import { metaculus } from './platforms/metaculus';
 import { augur } from './platforms/augur';
 
+import { manifold } from './platforms/manifold';
+
 const platformMap: Record<string, PlatformFetcher> = {
   polymarket,
   kalshi,
   predictit,
   metaculus,
   augur,
+  manifold,
 };
 
 interface Opportunity {

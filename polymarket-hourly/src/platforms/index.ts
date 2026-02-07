@@ -11,6 +11,7 @@ export { smarkets } from './smarkets';
 export { betfair } from './betfair';
 export { augur } from './augur';
 export { iem } from './iem';
+export { manifold } from './manifold';
 
 import { PlatformFetcher } from './types';
 import { polymarket } from './polymarket';
@@ -21,6 +22,7 @@ import { smarkets } from './smarkets';
 import { betfair } from './betfair';
 import { augur } from './augur';
 import { iem } from './iem';
+import { manifold } from './manifold';
 
 // All available platforms
 export const allPlatforms: PlatformFetcher[] = [
@@ -28,6 +30,7 @@ export const allPlatforms: PlatformFetcher[] = [
   kalshi,
   predictit,
   metaculus,
+  manifold,
   smarkets,
   betfair,
   augur,
@@ -37,9 +40,7 @@ export const allPlatforms: PlatformFetcher[] = [
 // Platforms with working public APIs
 export const activePlatforms: PlatformFetcher[] = [
   polymarket,
-  kalshi,
   predictit,
+  manifold,
   metaculus,
-  // smarkets, // Needs rate limit handling
-  augur,
 ];
