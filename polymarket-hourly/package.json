@@ -1,0 +1,27 @@
+{
+  "name": "polymarket-hourly",
+  "version": "1.0.0",
+  "description": "Extract open bets from Polymarket that finish within the hour",
+  "main": "dist/index.js",
+  "bin": {
+    "polymarket-hourly": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "npx ts-node src/index.ts",
+    "dev": "npx ts-node src/index.ts",
+    "test": "node --test dist/**/*.test.js"
+  },
+  "keywords": [
+    "polymarket",
+    "prediction-markets",
+    "betting",
+    "crypto"
+  ],
+  "author": "JoClaudi",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
