@@ -14,10 +14,11 @@ import { writeFileSync } from 'fs';
 import { polymarket } from './platforms/polymarket';
 import { predictit } from './platforms/predictit';
 import { manifold } from './platforms/manifold';
+import { oddsapi, findBookmakerArbitrage } from './platforms/oddsapi';
 import { Market, formatCurrency } from './platforms';
 
 interface Alert {
-  type: 'arbitrage' | 'near-certain-high-volume' | 'price-spike';
+  type: 'arbitrage' | 'near-certain-high-volume' | 'price-spike' | 'bookmaker-arb';
   severity: 'critical' | 'high' | 'medium';
   market: Market;
   details: {
@@ -40,6 +41,7 @@ async function scanForAlerts(minutesAhead: number): Promise<Alert[]> {
     polymarket.fetchMarkets(minutesAhead),
     predictit.fetchMarkets(minutesAhead * 10), // PredictIt has longer-term markets
     manifold.fetchMarkets(minutesAhead * 5),   // Manifold also has longer markets
+    oddsapi.fetchMarkets(minutesAhead),        // OddsAPI for cross-bookmaker arb
   ]);
 
   const allMarkets: Market[] = [];
