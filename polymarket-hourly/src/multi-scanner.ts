@@ -24,6 +24,7 @@ import { metaculus } from './platforms/metaculus';
 import { augur } from './platforms/augur';
 
 import { manifold } from './platforms/manifold';
+import { oddsapi } from './platforms/oddsapi';
 
 const platformMap: Record<string, PlatformFetcher> = {
   polymarket,
@@ -32,6 +33,7 @@ const platformMap: Record<string, PlatformFetcher> = {
   metaculus,
   augur,
   manifold,
+  oddsapi,
 };
 
 interface Opportunity {
@@ -119,8 +121,8 @@ function printMarket(market: Market): void {
     }
   }
   
-  if (market.volume24h > 0 || market.liquidity > 0) {
-    console.log(`   💰 Volume: ${formatCurrency(market.volume24h)} | Liquidity: ${formatCurrency(market.liquidity)}`);
+  if ((market.volume24h || 0) > 0 || (market.liquidity || 0) > 0) {
+    console.log(`   💰 Volume: ${formatCurrency(market.volume24h || 0)} | Liquidity: ${formatCurrency(market.liquidity || 0)}`);
   }
 }
 

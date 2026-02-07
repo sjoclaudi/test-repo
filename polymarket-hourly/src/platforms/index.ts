@@ -12,6 +12,7 @@ export { betfair } from './betfair';
 export { augur } from './augur';
 export { iem } from './iem';
 export { manifold } from './manifold';
+export { oddsapi, findBookmakerArbitrage } from './oddsapi';
 
 import { PlatformFetcher } from './types';
 import { polymarket } from './polymarket';
@@ -23,6 +24,7 @@ import { betfair } from './betfair';
 import { augur } from './augur';
 import { iem } from './iem';
 import { manifold } from './manifold';
+import { oddsapi } from './oddsapi';
 
 // All available platforms
 export const allPlatforms: PlatformFetcher[] = [
@@ -31,6 +33,7 @@ export const allPlatforms: PlatformFetcher[] = [
   predictit,
   metaculus,
   manifold,
+  oddsapi,
   smarkets,
   betfair,
   augur,
@@ -43,4 +46,5 @@ export const activePlatforms: PlatformFetcher[] = [
   predictit,
   manifold,
   metaculus,
+  oddsapi,
 ];

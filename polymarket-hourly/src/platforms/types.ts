@@ -10,13 +10,15 @@ export interface Market {
   endDate: Date | null;
   endsIn: string;
   outcomes: Outcome[];
-  volume24h: number;
-  liquidity: number;
+  volume24h?: number;
+  liquidity?: number;
+  metadata?: Record<string, any>;
 }
 
 export interface Outcome {
   name: string;
   probability: number;  // 0-100
+  metadata?: Record<string, any>;
 }
 
 export interface PlatformFetcher {
